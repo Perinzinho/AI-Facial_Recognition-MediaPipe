@@ -1,0 +1,1 @@
+#OBS:Precisa ser alterado o codigo para o mediapipe, editar também o readme
