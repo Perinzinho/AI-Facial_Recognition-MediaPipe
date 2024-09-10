@@ -26,3 +26,7 @@ with mp_face_mesh.Facemash(
         if not sucess:
             print("Não foi possivel capturar a imagem")
             break
+
+        #converte a imagem para rgb
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
