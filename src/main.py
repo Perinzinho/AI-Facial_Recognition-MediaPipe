@@ -1,6 +1,6 @@
 #OBS:Precisa ser alterado o codigo para o mediapipe, editar também o readme
 #para utilizar o mediapipe com o codigo é necessario que voce instale o git no pc
-#abrir e colocar o codigo: pip installmediapipe opencv-python
+#abrir e colocar o codigo: pip install mediapipe opencv-python
 import mediapipe as mp
 
 import cv2
@@ -12,20 +12,23 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 
 #configuração da webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)#Colocar um indíce para representar as cameras, para alguns pode ser 0 para outros 1 ou mais
 
 #Inicializa o facemesh
-with mp_face_mesh.Facemash(
+with mp_face_mesh.FaceMesh(
     max_num_faces=1, #detecta até 1 rosto(adicionar + se precisar)
     refine_landmarks=True, #Refinamento p/ olhos e labios
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as face_mesh:
 
-    while cap.isOpened():
+    if cap.isOpened():
         sucess, image = cap.read()
-        if not sucess:
-            print("Não foi possivel capturar a imagem")
-            break
+        while(sucess):#While serve para camerar ficar aberta a todo momento, senão ela só abre por 1 frame e fecha
+            sucess,image = cap.read()
+            cv2.imshow("Video", image)#Mostra a camera e todos os frames enquanto o while for verdadeiro
+            key = cv2.waitKey(5)#Fica a espera do usuário apertar ESC
+            if key==27:#Se o usuário apertar ESC a janela do vídeo fecha
+                break
 
         #converte a imagem para rgb
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -39,7 +42,7 @@ with mp_face_mesh.Facemash(
                 #desenha os pontos de referencia no rosto
                 mp_drawing.draw_landmarks(
                     image=image,
-                    landmarl_list=face_landmarks,
+                    landmark_list=face_landmarks,
                     connections=mp_face_mesh.FACEMESH_TESSELATION,
                     landmark_drawing_spec=mp_drawing_styles
                     .get_default_face_mesh_tesselation_style()
@@ -51,7 +54,7 @@ with mp_face_mesh.Facemash(
                     landmark_list=face_landmarks,
                     connections=mp_face_mesh.FACEMESH_CONTOURS,
                     landmark_drawing_spec=None,
-                    connection_drawinf_spec=mp_drawing_styles
+                    connection_drawing_spec=mp_drawing_styles
                     .get_default_face_mesh_contours_style()
                 )
 
