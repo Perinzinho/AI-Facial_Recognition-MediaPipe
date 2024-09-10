@@ -30,3 +30,6 @@ with mp_face_mesh.Facemash(
         #converte a imagem para rgb
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
+        #processa a imagem p/ detectar os pontos de refencias faciais
+        results = face_mesh.process(image_rgb)
+
