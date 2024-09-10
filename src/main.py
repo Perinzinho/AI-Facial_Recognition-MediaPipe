@@ -33,3 +33,14 @@ with mp_face_mesh.Facemash(
         #processa a imagem p/ detectar os pontos de refencias faciais
         results = face_mesh.process(image_rgb)
 
+        #verifica se há algum rosto detectado
+        if results.multi_face_landmarks:
+            for face_landmarks in results.multi_face_landmarks:
+                #desenha os pontos de referencia no rosto
+                mp_drawing.draw_landmarks(
+                    image=image,
+                    landmarl_list=face_landmarks,
+                    connections=mp_face_mesh.FACEMESH_TESSELATION,
+                    landmark_drawing_spec=mp_drawing_styles
+                    .get_default_face_mesh_tesselation_style()
+                )
