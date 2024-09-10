@@ -1,6 +1,10 @@
 #OBS:Precisa ser alterado o codigo para o mediapipe, editar também o readme
+
 #para utilizar o mediapipe com o codigo é necessario que voce instale o git no pc
+
 #abrir e colocar o codigo: pip installmediapipe opencv-python
+
+#import da biblioteca e da webcam
 import mediapipe as mp
 
 import cv2
@@ -54,4 +58,14 @@ with mp_face_mesh.Facemash(
                     connection_drawinf_spec=mp_drawing_styles
                     .get_default_face_mesh_contours_style()
                 )
+
+      # Exibe a imagem com os pontos de referência faciais
+        cv2.imshow('FaceMesh', image)
+
+        if cv2.waitKey(5) & 0xFF == 27:  # Pressione o esq para sair
+            break
+
+cap.release()
+cv2.destroyAllWindows()
+
 
